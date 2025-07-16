@@ -1,7 +1,10 @@
-/* Estilos gerais */
+/* Importa ícones do Font Awesome */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
+/* Variáveis globais */
 :root {
-  --primary-color: #4361ee;
-  --secondary-color: #3f37c9;
+  --primary-color: #ff6f00;
+  --secondary-color: #ff8c00;
   --text-color: #2b2d42;
   --light-gray: #f8f9fa;
   --medium-gray: #e9ecef;
@@ -10,6 +13,7 @@
   --success-color: #4cc9f0;
 }
 
+/* Reset e fonte padrão */
 * {
   margin: 0;
   padding: 0;
@@ -17,24 +21,139 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Corpo da página com fundo gradiente laranja */
 body {
-  background-color: #f5f7fa;
-  background-image: 
-    radial-gradient(at 80% 0%, hsla(189, 100%, 56%, 0.1) 0px, transparent 50%),
-    radial-gradient(at 0% 50%, hsla(355, 100%, 93%, 0.1) 0px, transparent 50%);
   min-height: 100vh;
+  background: linear-gradient(135deg, #b34700, #804000); /* laranja escuro para destaque */
+  padding: 20px;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 20px;
+  align-items: flex-start;
+  z-index: 0;
 }
 
-/* Card de login */
+/* Bolinhas no fundo */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  opacity: 0.3;
+  filter: blur(80px);
+  mix-blend-mode: screen;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  z-index: 0;
+  pointer-events: none;
+}
+
+body::before {
+  width: 300px;
+  height: 300px;
+  background-color: #ffffff;
+  top: 10%;
+  left: 10%;
+  animation-name: bubbleMove1;
+  animation-duration: 18s;
+}
+
+body::after {
+  width: 400px;
+  height: 400px;
+  background-color: #ffd580;
+  bottom: 10%;
+  right: 10%;
+  animation-name: bubbleMove2;
+  animation-duration: 22s;
+}
+
+/* Animação das bolhas */
+@keyframes bubbleMove1 {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(30px, -20px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes bubbleMove2 {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(-30px, 20px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Container das formas geométricas */
+.shape-container {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Estilos base das formas */
+.shape {
+  position: absolute;
+  opacity: 0;
+  filter: drop-shadow(0 0 12px var(--shape-color));
+  animation: shapeFlash 2s ease forwards;
+}
+
+/* Círculo */
+.shape.circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--shape-color);
+}
+
+/* Quadrado */
+.shape.square {
+  width: 40px;
+  height: 40px;
+  background: var(--shape-color);
+  border-radius: 8px;
+}
+
+/* Triângulo */
+.shape.triangle {
+  width: 0;
+  height: 0;
+  border-left: 25px solid transparent;
+  border-right: 25px solid transparent;
+  border-bottom: 45px solid var(--shape-color);
+  background: transparent;
+  border-radius: 0;
+  filter: drop-shadow(0 0 12px var(--shape-color));
+}
+
+/* Animação para aparecer e sumir */
+@keyframes shapeFlash {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) rotate(15deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-15deg);
+  }
+}
+
+/* Card do login */
 .login-container {
+  position: relative;
+  z-index: 10;
   width: 100%;
   max-width: 420px;
+  margin-top: 40px;
 }
 
+/* Card branco central */
 .login-card {
   background: white;
   border-radius: 16px;
@@ -48,16 +167,18 @@ body {
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
 }
 
+/* Logo */
 .logo-area {
   margin-bottom: 24px;
 }
 
 .logo {
-  max-width: 120px;
-  max-height: 80px;
+  max-width: 200px;  /* aumenta a largura */
+  max-height: 150px; /* aumenta a altura */
   margin: 0 auto;
 }
 
+/* Títulos */
 h2 {
   color: var(--text-color);
   margin-bottom: 8px;
@@ -96,10 +217,10 @@ h2 {
 .input-group input:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+  box-shadow: 0 0 0 3px rgba(255, 111, 0, 0.2);
 }
 
-/* Opções */
+/* Opções abaixo do input */
 .options {
   display: flex;
   justify-content: space-between;
@@ -160,7 +281,7 @@ h2 {
   transform: none;
 }
 
-/* Divisor */
+/* Divisor visual */
 .divider {
   margin: 24px 0;
   position: relative;
@@ -240,6 +361,3 @@ h2 {
   color: var(--secondary-color);
   text-decoration: underline;
 }
-
-/* Ícones (Font Awesome) */
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
