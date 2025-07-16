@@ -1,0 +1,553 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Variáveis cores */
+:root {
+  --primary: #ff6f00;
+  --primary-dark: #e65c00;
+  --background: #fff8e1;
+  --text-dark: #222;
+  --shadow: rgba(0, 0, 0, 0.12);
+  --shape-opacity: 0.15;
+  --border-radius: 14px;
+  --transition: 0.3s ease;
+}
+
+/* Fundo e layout geral */
+.menu-page {
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eba51a, #ff6f00);
+  color: var(--text-dark);
+  padding: 100px 20px 40px; /* espaço para navbar fixa */
+  overflow-x: hidden;
+}
+
+/* Fundo formas geométricas */
+.shapes-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Formas geométricas animadas */
+.shape {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  opacity: var(--shape-opacity);
+  background-color: var(--shape-color);
+  transition: opacity var(--transition);
+  user-select: none;
+  filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.05));
+}
+.shape.circle {
+  border-radius: 50%;
+}
+.shape.square {
+}
+.shape.triangle {
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 40px solid var(--shape-color);
+  background-color: transparent;
+  opacity: var(--shape-opacity);
+}
+
+/* Navbar fixa */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: #fff;
+  box-shadow: 0 3px 15px var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 25px;
+  z-index: 10;
+  user-select: none;
+}
+
+/* Container da logo + texto lado a lado */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* espaço entre imagem e texto */
+  font-weight: 700;
+  font-size: 1.9rem;
+  color: var(--primary-dark);
+  cursor: pointer;
+}
+
+/* Logo como imagem */
+.logo img {
+  height: 40px; /* altura da logo */
+  width: auto;
+  display: block;
+}
+
+/* Campo de busca */
+.search-bar {
+  position: relative;
+  flex-grow: 1;
+  max-width: 400px;
+  margin: 0 20px;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 12px 48px 12px 16px;
+  font-size: 1rem;
+  border-radius: 30px;
+  border: 2px solid var(--primary);
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.search-bar input:focus {
+  border-color: var(--primary-dark);
+}
+
+/* Botão de busca */
+.search-btn {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  background: var(--primary);
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: background-color var(--transition);
+}
+
+.search-btn:hover {
+  background: var(--primary-dark);
+}
+
+/* Links do menu à direita */
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+
+.nav-links a {
+  margin-left: 25px;
+  font-weight: 600;
+  color: var(--primary-dark);
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color var(--transition);
+  cursor: pointer;
+}
+
+.nav-links a:hover {
+  color: var(--primary);
+}
+
+.banner-marquee {
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+  height: 90px; /* altura menor */
+  margin: 0 auto 50px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 8px 20px var(--shadow);
+  background: #fff8e1;
+  user-select: none;
+}
+
+/* Faixa que vai se mover horizontalmente */
+.banner-marquee-track {
+  display: flex;
+  gap: 15px;
+  animation: marquee-left 25s linear infinite;
+  will-change: transform;
+}
+
+/* Pausa a animação ao passar o mouse */
+.banner-marquee:hover .banner-marquee-track {
+  animation-play-state: paused;
+}
+
+/* Animação de movimento da direita para a esquerda */
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Cada banner individual */
+.banner-marquee-item {
+  flex: 0 0 auto;
+  width: 160px;   /* largura fixa menor */
+  height: 90px;   /* altura fixa menor */
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: 0 6px 20px var(--shadow);
+  position: relative;
+  cursor: pointer;
+  background: #ff6f00;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.3s ease;
+}
+
+.banner-marquee-item:hover {
+  box-shadow: 0 10px 30px rgba(255, 111, 0, 0.7);
+}
+
+/* Imagem dentro do banner */
+.banner-marquee {
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+  height: 140px; /* altura maior */
+  margin: 0 auto 50px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 10px 25px var(--shadow);
+  background: #fff8e1;
+  user-select: none;
+}
+
+.banner-marquee-track {
+  display: flex;
+  gap: 20px;
+  animation: marquee-left 30s linear infinite;
+  will-change: transform;
+}
+
+.banner-marquee:hover .banner-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.banner-marquee {
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+  height: 180px; /* altura maior */
+  margin: 0 auto 50px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 12px 35px var(--shadow);
+  background: #fff8e1;
+  user-select: none;
+}
+
+.banner-marquee-track {
+  display: flex;
+  gap: 30px; /* mais espaçamento */
+  animation: marquee-left 35s linear infinite;
+  will-change: transform;
+}
+
+.banner-marquee:hover .banner-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+/*  */
+.banner-marquee-item {
+  flex: 0 0 auto;
+  width: 320px;  /* largura maior */
+  height: 180px; /* altura maior */
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: 0 10px 30px var(--shadow);
+  position: relative;
+  cursor: pointer;
+  background: #ff6f00;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.3s ease;
+}
+
+.banner-marquee-item:hover {
+  box-shadow: 0 20px 50px rgba(255, 111, 0, 0.85);
+}
+
+.banner-marquee-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  transition: transform 0.35s ease;
+}
+
+.banner-marquee-item:hover img {
+  transform: scale(1.1);
+}
+
+/* Produtos seção */
+.products-section {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.products-section h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 25px;
+  text-align: center;
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+
+/* Carousel wrapper com botões de scroll */
+.products-carousel-wrapper {
+  position: relative;
+}
+
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--primary);
+  border: none;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.3rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  transition: background-color var(--transition);
+  z-index: 5;
+  user-select: none;
+}
+
+.scroll-btn:hover {
+  background: var(--primary-dark);
+}
+
+.scroll-btn.left {
+  left: -20px;
+}
+
+.scroll-btn.right {
+  right: -20px;
+}
+
+/* Container do carrossel horizontal */
+.products-carousel {
+  display: flex;
+  gap: 25px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding-bottom: 15px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) #ffd580;
+  scroll-snap-type: x mandatory;
+  user-select: none;
+  outline: none;
+}
+
+.products-carousel::-webkit-scrollbar {
+  height: 9px;
+}
+
+.products-carousel::-webkit-scrollbar-track {
+  background: #ffd580;
+  border-radius: 10px;
+}
+
+.products-carousel::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 10px;
+}
+
+/* Produtos cards com snap */
+/* Produtos organizados em grid */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 20px;
+  padding: 0 10px;
+}
+
+/* Carrossel de banners com rolagem suave no mouse */
+.banner-loop {
+  overflow: hidden;
+  position: relative;
+  height: 140px;
+  margin: 1rem 0;
+}
+
+.banner-track {
+  display: flex;
+  width: max-content;
+  animation: scrollBanner 30s linear infinite;
+}
+
+.banner-item {
+  flex: 0 0 auto;
+  width: 400px;
+  margin-right: 1rem;
+}
+
+.banner-item img {
+  width: 103%;
+  height: 140px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.banner-item img:hover {
+  transform: scale(1.05);
+}
+
+@keyframes scrollBanner {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-20%);
+  }
+}
+
+/* Animação dos banners andando */
+@keyframes scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Ajustes no card de produto */
+.product-card img {
+  width: 100%;
+  height: 100px;
+  object-fit: contain;
+}
+
+/* Responsividade */
+@media (max-width: 1000px) {
+  .products-carousel-wrapper {
+    padding: 0 20px;
+  }
+
+  .scroll-btn.left {
+    left: 0;
+  }
+  .scroll-btn.right {
+    right: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 15px 20px;
+    gap: 10px;
+  }
+
+  .search-bar {
+    max-width: 100%;
+    flex-grow: 1;
+  }
+
+  .nav-links {
+    flex-basis: 100%;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .nav-links a {
+    margin: 0 12px;
+    font-size: 0.95rem;
+  }
+
+  .products-section h2 {
+    font-size: 1.6rem;
+  }
+
+  .product-card {
+    width: 150px;
+    padding: 15px;
+  }
+}
+.carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.carousel {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(3, 1fr); /* 3 fileiras */
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 0 10px;
+}
+
+.product-card {
+  width: 180px;
+  height: 100%;
+  background: white;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 0 10px #00000010;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.scroll-btn {
+  background: #ffa500;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: white;
+  margin: 0 10px;
+  z-index: 1;
+  transition: background 0.3s;
+}
+.scroll-btn:hover {
+  background: #ff7700;
+}
