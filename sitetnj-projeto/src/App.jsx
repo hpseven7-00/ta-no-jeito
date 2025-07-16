@@ -50,3 +50,12 @@ function App() {
 }
 
 export default App;
+
+import React from "react";
+import Login from "./Login"; // importa o componente Login
+
+function App() {
+  return <Login />; // mostra o login
+}
+
+export default App;
