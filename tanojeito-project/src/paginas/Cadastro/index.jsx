@@ -1,9 +1,11 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import logo from '/src/assets/tnj.jpeg'; // Ajuste conforme seu caminho
-import './style.css'; // Estilos específicos para cadastro
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import logo from '/src/assets/tnj.jpeg';
+import './style.css';
 
 function Cadastro() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     nome: '',
     email: '',
@@ -25,7 +27,6 @@ function Cadastro() {
 
   const validateForm = () => {
     const newErrors = {};
-    
     if (!formData.nome.trim()) newErrors.nome = 'Nome é obrigatório';
     if (!formData.email.trim()) {
       newErrors.email = 'E-mail é obrigatório';
@@ -35,7 +36,6 @@ function Cadastro() {
     if (formData.senha.length < 6) newErrors.senha = 'Senha deve ter pelo menos 6 caracteres';
     if (formData.senha !== formData.confirmarSenha) newErrors.confirmarSenha = 'Senhas não coincidem';
     if (!formData.aceitarTermos) newErrors.aceitarTermos = 'Você deve aceitar os termos';
-    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -44,23 +44,51 @@ function Cadastro() {
     e.preventDefault();
     if (validateForm()) {
       setIsSubmitting(true);
-      // Simulando requisição de cadastro
       setTimeout(() => {
-        console.log('Dados de cadastro:', formData);
+        console.log('Cadastro:', formData);
         setIsSubmitting(false);
         alert('Cadastro realizado com sucesso!');
+        navigate('/menu');
       }, 1500);
     }
   };
 
+  useEffect(() => {
+    const container = document.createElement('div');
+    container.className = 'shape-container';
+    document.body.appendChild(container);
+
+    function createShape() {
+      const shape = document.createElement('div');
+      shape.className = 'shape';
+      const types = ['circle', 'square', 'triangle'];
+      const type = types[Math.floor(Math.random() * types.length)];
+      shape.classList.add(type);
+      shape.style.top = `${Math.random() * 100}vh`;
+      shape.style.left = `${Math.random() * 100}vw`;
+      const size = `${20 + Math.random() * 30}px`;
+      shape.style.width = size;
+      shape.style.height = size;
+      const colors = ['#e67015', '#3f37c9', '#4cc9f0', '#ffb347', '#ef233c'];
+      shape.style.background = colors[Math.floor(Math.random() * colors.length)];
+      container.appendChild(shape);
+      setTimeout(() => shape.remove(), 5000);
+    }
+
+    const interval = setInterval(createShape, 400);
+    return () => {
+      clearInterval(interval);
+      container.remove();
+    };
+  }, []);
+
   return (
     <div className="cadastro-container">
-      <div className="cadastro-card">
+      <div className="cadastro-card login-card">
         <div className="logo-area">
           <img src={logo} alt="Logo Tá no Jeito" className="logo" />
         </div>
-
-        <h2>Crie sua conta</h2>
+        <h2>Crie já sua conta</h2>
         <p className="subtitle">Preencha os campos abaixo para se cadastrar</p>
 
         <form onSubmit={handleSubmit}>
@@ -70,9 +98,9 @@ function Cadastro() {
               type="text"
               id="nome"
               name="nome"
-              placeholder="Digite seu nome completo"
               value={formData.nome}
               onChange={handleChange}
+              placeholder="Digite seu nome"
             />
             {errors.nome && <span className="error-message">{errors.nome}</span>}
           </div>
@@ -83,9 +111,9 @@ function Cadastro() {
               type="email"
               id="email"
               name="email"
-              placeholder="seu@email.com"
               value={formData.email}
               onChange={handleChange}
+              placeholder="seu@email.com"
             />
             {errors.email && <span className="error-message">{errors.email}</span>}
           </div>
@@ -96,9 +124,9 @@ function Cadastro() {
               type="password"
               id="senha"
               name="senha"
-              placeholder="••••••••"
               value={formData.senha}
               onChange={handleChange}
+              placeholder="••••••••"
             />
             {errors.senha && <span className="error-message">{errors.senha}</span>}
           </div>
@@ -109,9 +137,9 @@ function Cadastro() {
               type="password"
               id="confirmarSenha"
               name="confirmarSenha"
-              placeholder="••••••••"
               value={formData.confirmarSenha}
               onChange={handleChange}
+              placeholder="••••••••"
             />
             {errors.confirmarSenha && <span className="error-message">{errors.confirmarSenha}</span>}
           </div>
@@ -124,18 +152,20 @@ function Cadastro() {
                 checked={formData.aceitarTermos}
                 onChange={handleChange}
               />
-              <span>Eu li e aceito os <a href="#termos">Termos de Serviço</a> e <a href="#politica">Política de Privacidade</a></span>
+              <span>
+                Eu aceito os <Link to="/termos">Termos</Link> e a <Link to="/termos">Política</Link>
+              </span>
             </label>
             {errors.aceitarTermos && <span className="error-message">{errors.aceitarTermos}</span>}
           </div>
 
-          <button type="submit" className="cadastro-button" disabled={isSubmitting}>
+          <button type="submit" className="cadastro-button login-button" disabled={isSubmitting}>
             {isSubmitting ? 'Cadastrando...' : 'Criar conta'}
           </button>
         </form>
 
         <div className="login-link">
-          Já tem uma conta? <Link to="/">Faça Login</Link>
+          Já tem conta? <Link to="/">Faça login</Link>
         </div>
       </div>
     </div>
