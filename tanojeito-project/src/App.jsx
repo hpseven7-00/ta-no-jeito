@@ -1,17 +1,19 @@
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
-import Login from './paginas/Login';  // Nome do componente com letra maiúscula
-import Cadastro from './paginas/Cadastro';  // Nome do componente com letra maiúscula
-import { useState } from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import Cadastro from './paginas/Cadastro';
+import Login from './paginas/Login';
+import Menu from './paginas/Menu';
 
-function Inicio() {  // Nome do componente com letra maiúscula
+function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Login />} />  {/* Componente com letra maiúscula */}
-        <Route path='/cadastro' element={<Cadastro />} />  {/* Componente com letra maiúscula */}
+        <Route path="/" element={<Login />} />
+        <Route path="/cadastro" element={<Cadastro />} />
+        <Route path="/menu" element={<Menu />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
   );
 }
 
-export default Inicio;  // Exportação com nome correto
+export default App;
