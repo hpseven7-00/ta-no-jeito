@@ -1,121 +1,286 @@
-import { useEffect, useRef, useState } from "react";
-import { FaSearch, FaChevronLeft, FaChevronRight, FaStar, FaRegStar } from "react-icons/fa";
-import "./style.css";
+import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import logo from '/src/assets/tnj.jpeg';
+import googleLogo from '/src/assets/google.png';
+import githubLogo from '/src/assets/github.png';
+import './style.css';
 
-function Menu() {
-  const shapesRef = useRef(null);
-  const productsRef = useRef(null);
+function Login() {
+  const [shapes, setShapes] = useState([]);
+  const [poppedCount, setPoppedCount] = useState(0);
+  const [redCount, setRedCount] = useState(0);
+  const [gameStarted, setGameStarted] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(30);
+  const [bonusActive, setBonusActive] = useState(false);
+  const [bonusTimeLeft, setBonusTimeLeft] = useState(0);
 
-  // Criação das formas geométricas animadas no fundo
-  useEffect(() => {
-    const container = shapesRef.current;
-    const shapes = ["circle", "square", "triangle"];
-    const colors = ["#FF6F00", "#FF8C00", "#FFB347", "#FFA500", "#FF4500"];
+  const timerRef = useRef(null);
+  const bonusTimerRef = useRef(null);
 
-    function createShape() {
-      if (!container) return;
-      const shape = document.createElement("div");
-      const type = shapes[Math.floor(Math.random() * shapes.length)];
-      shape.className = `shape ${type}`;
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      shape.style.setProperty("--shape-color", color);
-      shape.style.top = `${Math.random() * 100}vh`;
-      shape.style.left = `${Math.random() * 100}vw`;
-      shape.style.transform = `rotate(${Math.random() * 60 - 30}deg)`;
-      shape.style.opacity = 0.15;
-      container.appendChild(shape);
-      setTimeout(() => shape.remove(), 4000);
+  const createShape = (forceWhite = false) => {
+    const colors = ['#f400bbed', '#0059ffff', '#19fc00ff', '#ffea00ff'];
+    const redColor = '#FF0000';
+
+    if (forceWhite) {
+      return {
+        id: Math.random().toString(36).substr(2, 9),
+        top: Math.random() * 90 + 5,
+        left: Math.random() * 90 + 5,
+        size: 30 + Math.random() * 50,
+        color: '#fff',
+        exploding: false,
+        isBlack: false,
+        isWhite: true,
+        isGreen: false,
+        isRed: false,
+      };
     }
 
-    const interval = setInterval(createShape, 400);
+    const rand = Math.random();
+    if (rand < 0.10) {
+      return {
+        id: Math.random().toString(36).substr(2, 9),
+        top: Math.random() * 90 + 5,
+        left: Math.random() * 90 + 5,
+        size: 30 + Math.random() * 50,
+        color: '#000',
+        exploding: false,
+        isBlack: true,
+        isWhite: false,
+        isGreen: false,
+        isRed: false,
+      };
+    }
+    if (rand < 0.25) {
+      return {
+        id: Math.random().toString(36).substr(2, 9),
+        top: Math.random() * 90 + 5,
+        left: Math.random() * 90 + 5,
+        size: 30 + Math.random() * 50,
+        color: '#0f0',
+        exploding: false,
+        isBlack: false,
+        isWhite: false,
+        isGreen: true,
+        isRed: false,
+      };
+    }
+    if (rand < 0.40) {
+      return {
+        id: Math.random().toString(36).substr(2, 9),
+        top: Math.random() * 90 + 5,
+        left: Math.random() * 90 + 5,
+        size: 30 + Math.random() * 50,
+        color: redColor,
+        exploding: false,
+        isBlack: false,
+        isWhite: false,
+        isGreen: false,
+        isRed: true,
+      };
+    }
 
-    return () => {
-      clearInterval(interval);
-      if (container) container.innerHTML = "";
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    return {
+      id: Math.random().toString(36).substr(2, 9),
+      top: Math.random() * 90 + 5,
+      left: Math.random() * 90 + 5,
+      size: 30 + Math.random() * 50,
+      color,
+      exploding: false,
+      isBlack: false,
+      isWhite: false,
+      isGreen: false,
+      isRed: false,
     };
+  };
+
+  useEffect(() => {
+    const initialShapes = [];
+    for (let i = 0; i < 12; i++) {
+      initialShapes.push(createShape());
+    }
+    setShapes(initialShapes);
   }, []);
 
-  // Exemplo com 40 produtos
-  const produtos = Array.from({ length: 40 }, (_, i) => ({
-    id: i + 1,
-    nome: `Produto ${i + 1}`,
-    preco: (20 + i * 3).toFixed(2),
-    imagem: `https://via.placeholder.com/180x180?text=Produto+${i + 1}`,
-    avaliacao: Math.floor(Math.random() * 6), // 0 a 5 estrelas
-  }));
+  useEffect(() => {
+    if (gameStarted) {
+      const minDuration = 5;
+      const maxDuration = 20;
+      const duration = minDuration + ((timeLeft / 30) * (maxDuration - minDuration));
+      document.documentElement.style.setProperty('--float-duration', `${duration}s`);
+    } else {
+      document.documentElement.style.setProperty('--float-duration', '20s');
+    }
+  }, [timeLeft, gameStarted]);
 
-  // Funções para controlar scroll do carrossel de produtos
-  function scrollLeft() {
-    if (productsRef.current) {
-      productsRef.current.scrollBy({ left: -300, behavior: "smooth" });
+  useEffect(() => {
+    if (gameStarted && timeLeft > 0) {
+      timerRef.current = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+    } else if (timeLeft === 0 && gameStarted) {
+      setGameStarted(false);
+      alert(`Fim do jogo! Você estourou ${poppedCount} bolinhas e marcou ${calculatePoints()} pontos!`);
+      resetGame();
     }
-  }
-  function scrollRight() {
-    if (productsRef.current) {
-      productsRef.current.scrollBy({ left: 300, behavior: "smooth" });
+    return () => clearTimeout(timerRef.current);
+  }, [gameStarted, timeLeft]);
+
+  useEffect(() => {
+    if (bonusActive && bonusTimeLeft > 0) {
+      bonusTimerRef.current = setTimeout(() => setBonusTimeLeft(bonusTimeLeft - 1), 1000);
+    } else if (bonusTimeLeft === 0) {
+      setBonusActive(false);
     }
-  }
+    return () => clearTimeout(bonusTimerRef.current);
+  }, [bonusActive, bonusTimeLeft]);
+
+  const resetGame = () => {
+    setPoppedCount(0);
+    setRedCount(0);
+    setTimeLeft(30);
+    setBonusActive(false);
+    setBonusTimeLeft(0);
+    const initialShapes = [];
+    for (let i = 0; i < 12; i++) {
+      initialShapes.push(createShape());
+    }
+    setShapes(initialShapes);
+  };
+
+  const calculatePoints = () => {
+    const basePoints = poppedCount + redCount;
+    return bonusActive ? basePoints * 2 : basePoints;
+  };
+
+  const handleMouseEnter = (id) => {
+    setShapes((oldShapes) => {
+      const explodingShape = oldShapes.find((shape) => shape.id === id);
+      if (!explodingShape) return oldShapes;
+
+      const newShapes = oldShapes.map((shape) =>
+        shape.id === id ? { ...shape, exploding: true } : shape
+      );
+
+      setTimeout(() => {
+        setShapes((currentShapes) => {
+          let replacedShapes = currentShapes.filter((shape) => shape.id !== id);
+
+          if (explodingShape.isBlack) {
+            replacedShapes = replacedShapes.map((shape) => ({
+              ...shape,
+              top: Math.random() * 90 + 5,
+              left: Math.random() * 90 + 5,
+              exploding: false,
+            }));
+          }
+
+          replacedShapes = [
+            ...replacedShapes,
+            createShape(),
+            createShape(),
+          ];
+
+          const hasWhite = replacedShapes.some((s) => s.isWhite);
+          if (poppedCount > 0 && poppedCount % 50 === 0 && !hasWhite) {
+            replacedShapes.push(createShape(true));
+          }
+          if (poppedCount > 0 && poppedCount % 10 === 0 && !hasWhite) {
+            replacedShapes.push(createShape(true));
+          }
+
+          if (replacedShapes.length > 40) {
+            replacedShapes = replacedShapes.slice(-40);
+          }
+
+          return replacedShapes;
+        });
+      }, 300);
+
+      return newShapes;
+    });
+
+    setPoppedCount((count) => {
+      let newCount = count + 1;
+      const shape = shapes.find((s) => s.id === id);
+      if (shape?.isRed) {
+        setRedCount((r) => r + 1);
+      }
+      if (shape?.isWhite) {
+        setBonusActive(true);
+        setBonusTimeLeft(10);
+      }
+      if (shape?.isGreen && bonusActive) {
+        setBonusTimeLeft((time) => Math.max(0, time - 4));
+      }
+      if (newCount === 5 && !gameStarted) {
+        setGameStarted(true);
+        setTimeLeft(30);
+      }
+      return newCount;
+    });
+  };
 
   return (
-    <div className="menu-page">
-      <div className="shapes-bg" ref={shapesRef} />
+    <div className="login-container">
+      <div className="animated-shapes">
+        {shapes.map((shape) => (
+          <div
+            key={shape.id}
+            className={`shape ${shape.exploding ? 'explode' : ''}`}
+            style={{
+              top: `${shape.top}%`,
+              left: `${shape.left}%`,
+              width: `${shape.size}px`,
+              height: `${shape.size}px`,
+              backgroundColor: shape.color,
+            }}
+            onMouseEnter={() => handleMouseEnter(shape.id)}
+          />
+        ))}
+      </div>
 
-      {/* Navbar fixa */}
-      <nav className="navbar">
-        <div className="logo">Tá no Jeito</div>
-        <div className="search-bar">
-          <input type="search" placeholder="Buscar produtos, marcas e muito mais..." />
-          <button className="search-btn" aria-label="Buscar">
-            <FaSearch />
-          </button>
-        </div>
-        <div className="nav-links">
-          <a href="#promo">Promoções</a>
-          <a href="#products">Produtos</a>
-          <a href="#contato">Contato</a>
-        </div>
-      </nav>
+      <div className="login-box">
+        <img src={logo} alt="Logo" className="login-logo" />
+        <h2>Bem-vindo de volta!</h2>
 
-      {/* Banner carrossel */}
-      <section className="banner-carousel" aria-label="Promoções">
-        <div className="banner-track">
-          <img src="https://via.placeholder.com/900x250?text=Promoção+Especial+1" alt="Promoção Especial 1" />
-          <img src="https://via.placeholder.com/900x250?text=Promoção+Especial+2" alt="Promoção Especial 2" />
-          <img src="https://via.placeholder.com/900x250?text=Promoção+Especial+3" alt="Promoção Especial 3" />
-        </div>
-      </section>
-
-      {/* Produtos */}
-      <section className="products-section" id="products" aria-label="Ofertas do dia">
-        <h2>Ofertas do Dia</h2>
-        <div className="products-carousel-wrapper">
-          <button className="scroll-btn left" onClick={scrollLeft} aria-label="Deslizar para esquerda">
-            <FaChevronLeft />
-          </button>
-
-          <div className="products-carousel" ref={productsRef} tabIndex={0}>
-            {produtos.map(({ id, nome, preco, imagem, avaliacao }) => (
-              <article className="product-card" key={id} tabIndex={-1} aria-label={`${nome} por R$${preco}`}>
-                <img src={imagem} alt={nome} loading="lazy" />
-                <h3>{nome}</h3>
-                <p className="price">R$ {preco}</p>
-                <div className="rating" aria-label={`Avaliação: ${avaliacao} de 5 estrelas`}>
-                  {[...Array(5)].map((_, i) =>
-                    i < avaliacao ? <FaStar key={i} color="#ffb400" /> : <FaRegStar key={i} color="#ccc" />
-                  )}
-                </div>
-                <button className="buy-button">Comprar</button>
-              </article>
-            ))}
+        {/* ⏱️ Pontuação e tempo centralizado */}
+        {gameStarted && (
+          <div className="score-box">
+            <strong>Tempo:</strong> {timeLeft}s<br />
+            <strong>Pontos:</strong> {calculatePoints()} {bonusActive && <span>(Bônus ativo!)</span>}
           </div>
+        )}
 
-          <button className="scroll-btn right" onClick={scrollRight} aria-label="Deslizar para direita">
-            <FaChevronRight />
-          </button>
+        <form onSubmit={(e) => e.preventDefault()}>
+          <input type="email" placeholder="Seu e-mail" required />
+          <input type="password" placeholder="Sua senha" required />
+          <button type="submit">Entrar</button>
+        </form>
+
+        <div className="social-login">
+          <p>Ou entre com:</p>
+          <div className="social-buttons">
+            <button className="google-btn">
+              <img src={googleLogo} alt="Google" />
+              Google
+            </button>
+            <button className="github-btn">
+              <img src={githubLogo} alt="GitHub" />
+              GitHub
+            </button>
+          </div>
         </div>
-      </section>
+
+        <div className="register-link">
+          <p>
+            Tem conta?
+            <br />
+            <Link to="/cadastro">Faça cadastro</Link>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
 
-export default Menu;
+export default Login;
