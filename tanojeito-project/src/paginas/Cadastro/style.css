@@ -105,8 +105,12 @@ body::after {
 
 .logo-area {
   margin-bottom: 25px;
-  text-align: center;
+  display: flex;            /* ativa flexbox para alinhamento */
+  justify-content: center;  /* centraliza horizontalmente */
+  align-items: center;      /* alinha verticalmente (se necessário) */
+  width: 100%;              /* ocupa toda a largura da caixa */
 }
+
 
 .logo {
   max-width: 200px;  /* aumenta a largura */
