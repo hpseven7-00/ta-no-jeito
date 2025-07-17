@@ -1,363 +1,269 @@
-/* Importa ícones do Font Awesome */
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
-
-/* Variáveis globais */
-:root {
-  --primary-color: #ff6f00;
-  --secondary-color: #ff8c00;
-  --text-color: #2b2d42;
-  --light-gray: #f8f9fa;
-  --medium-gray: #e9ecef;
-  --dark-gray: #adb5bd;
-  --error-color: #ef233c;
-  --success-color: #4cc9f0;
+/* Container que permite posicionamento absoluto */
+.animated-shapes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
 }
 
-/* Reset e fonte padrão */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* Corpo da página com fundo gradiente laranja */
-body {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #b34700, #804000); /* laranja escuro para destaque */
-  padding: 20px;
-  position: relative;
-  overflow-x: hidden;
-  overflow-y: auto;
-
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  z-index: 0;
-}
-
-/* Bolinhas no fundo */
-body::before,
-body::after {
-  content: '';
-  position: fixed;
-  border-radius: 50%;
-  opacity: 0.3;
-  filter: blur(80px);
-  mix-blend-mode: screen;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
-  z-index: 0;
-  pointer-events: none;
-}
-
-body::before {
-  width: 300px;
-  height: 300px;
-  background-color: #ffffff;
-  top: 10%;
-  left: 10%;
-  animation-name: bubbleMove1;
-  animation-duration: 18s;
-}
-
-body::after {
-  width: 400px;
-  height: 400px;
-  background-color: #ffd580;
-  bottom: 10%;
-  right: 10%;
-  animation-name: bubbleMove2;
-  animation-duration: 22s;
-}
-
-/* Animação das bolhas */
-@keyframes bubbleMove1 {
-  0% { transform: translate(0, 0); }
-  50% { transform: translate(30px, -20px); }
-  100% { transform: translate(0, 0); }
-}
-
-@keyframes bubbleMove2 {
-  0% { transform: translate(0, 0); }
-  50% { transform: translate(-30px, 20px); }
-  100% { transform: translate(0, 0); }
-}
-
-/* Container das formas geométricas */
-.shape-container {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Estilos base das formas */
+/* Estilo base das formas */
 .shape {
   position: absolute;
-  opacity: 0;
-  filter: drop-shadow(0 0 12px var(--shape-color));
-  animation: shapeFlash 2s ease forwards;
-}
-
-/* Círculo */
-.shape.circle {
-  width: 50px;
-  height: 50px;
   border-radius: 50%;
-  background: var(--shape-color);
+  opacity: 0.25;
+  animation: float1 12s infinite ease-in-out;
 }
 
-/* Quadrado */
-.shape.square {
-  width: 40px;
-  height: 40px;
-  background: var(--shape-color);
-  border-radius: 8px;
+/* Forma 1 */
+.shape1 {
+  width: 200px;
+  height: 200px;
+  top: 10%;
+  left: 15%;
+  background: rgba(255, 165, 0, 0.3);
+  animation: float1 10s ease-in-out infinite;
 }
 
-/* Triângulo */
-.shape.triangle {
-  width: 0;
-  height: 0;
-  border-left: 25px solid transparent;
-  border-right: 25px solid transparent;
-  border-bottom: 45px solid var(--shape-color);
-  background: transparent;
-  border-radius: 0;
-  filter: drop-shadow(0 0 12px var(--shape-color));
+/* Forma 2 */
+.shape2 {
+  width: 300px;
+  height: 300px;
+  top: 60%;
+  left: 60%;
+  background: rgba(0, 200, 255, 0.3);
+  animation: float2 14s ease-in-out infinite;
 }
 
-/* Animação para aparecer e sumir */
-@keyframes shapeFlash {
-  0% {
-    opacity: 0;
-    transform: scale(0.5) rotate(0deg);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1) rotate(15deg);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.5) rotate(-15deg);
-  }
+/* Forma 3 */
+.shape3 {
+  width: 150px;
+  height: 150px;
+  top: 40%;
+  left: 30%;
+  background: rgba(255, 0, 150, 0.3);
+  animation: float3 16s ease-in-out infinite;
 }
 
-/* Card do login */
-.login-container {
-  position: relative;
-  z-index: 10;
-  width: 100%;
-  max-width: 420px;
-  margin-top: 40px;
+/* Forma 4 */
+.shape4 {
+  width: 180px;
+  height: 180px;
+  top: 80%;
+  left: 20%;
+  background: rgba(100, 255, 100, 0.3);
+  animation: float4 18s ease-in-out infinite;
 }
 
-/* Card branco central */
-.login-card {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  padding: 40px;
+/* Animações com rotas variadas */
+.shape {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.3;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.3s ease; /* explosão mais rápida */
+  animation: float 20s ease-in-out infinite; /* duração maior para movimento mais lento e longo */
+}
+.shape {
+  /* ...restante do estilo... */
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  animation: float 20s ease-in-out infinite;
+}
+.shape.explode {
+  animation: none !important;
+  opacity: 0;
+  transform: scale(3) rotate(45deg);
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+.shape.explode {
+  animation: none !important;
+  opacity: 0;
+  transform: scale(3) rotate(45deg);
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Movimento mais amplo e complexo */
+.shape {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.3;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  animation: float var(--float-duration, 20s) ease-in-out infinite;
+}
+.score-box {
+  margin: 15px auto;
+  background-color: #f5f5f5;
+  border-radius: 12px;
+  padding: 10px 20px;
   text-align: center;
+  font-size: 16px;
+  color: #333;
+  width: 80%;
+  max-width: 250px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+}
+/* Resto do estilo igual */
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0); }
+  15% { transform: translate(40px, -50px); }
+  30% { transform: translate(-60px, 40px); }
+  45% { transform: translate(50px, -30px); }
+  60% { transform: translate(-40px, 60px); }
+  75% { transform: translate(30px, -40px); }
+  90% { transform: translate(-50px, 30px); }
+}
+
+/* Informações do mini jogo */
+.game-info {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  user-select: none;
+  text-align: center;
+}
+/* Caixa de login branca, maior e com cantos arredondados */
+.login-box {
+  position: relative;
+  background: white;
+  padding: 3rem;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  z-index: 2;
+  width: 95%;
+  max-width: 500px;
+  text-align: center;
+}
+
+/* Logo do topo */
+.login-logo {
+  width: 90px;
+  height: 90px;
+  margin-bottom: 1rem;
+}
+
+/* Título */
+.login-box h2 {
+  color: #111;
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
+}
+
+/* Inputs do formulário */
+.login-box form input {
+  width: 100%;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
   transition: all 0.3s ease;
 }
 
-.login-card:hover {
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-}
-
-/* Logo */
-.logo-area {
-  margin-bottom: 24px;
-}
-
-.logo {
-  max-width: 200px;  /* aumenta a largura */
-  max-height: 150px; /* aumenta a altura */
-  margin: 0 auto;
-}
-
-/* Títulos */
-h2 {
-  color: var(--text-color);
-  margin-bottom: 8px;
-  font-size: 1.5rem;
-}
-
-.subtitle {
-  color: var(--dark-gray);
-  margin-bottom: 24px;
-  font-size: 0.9rem;
-}
-
-/* Formulário */
-.input-group {
-  margin-bottom: 16px;
-  text-align: left;
-}
-
-.input-group label {
-  display: block;
-  margin-bottom: 8px;
-  color: var(--text-color);
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-.input-group input {
-  width: 100%;
-  padding: 12px 16px;
-  border: 1px solid var(--medium-gray);
-  border-radius: 8px;
-  font-size: 0.95rem;
-  transition: all 0.3s;
-}
-
-.input-group input:focus {
+/* Destaque no foco do input */
+.login-box form input:focus {
+  border-color: #ffa600;
   outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(255, 111, 0, 0.2);
+  box-shadow: 0 0 5px #ffd700;
 }
 
-/* Opções abaixo do input */
-.options {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 16px 0 24px;
-}
-
-.remember-me {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.remember-me input {
-  margin-right: 8px;
-  cursor: pointer;
-}
-
-.remember-me span {
-  font-size: 0.85rem;
-  color: var(--text-color);
-}
-
-.forgot-password {
-  font-size: 0.85rem;
-  color: var(--primary-color);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.forgot-password:hover {
-  color: var(--secondary-color);
-  text-decoration: underline;
-}
-
-/* Botão de login */
-.login-button {
+/* Botão de envio */
+.login-box form button {
   width: 100%;
-  padding: 14px;
-  background-color: var(--primary-color);
-  color: white;
+  padding: 1rem;
+  margin-top: 1rem;
+  background-color: #ffa200;
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #fffcfc;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: background-color 0.3s ease;
 }
 
-.login-button:hover {
-  background-color: var(--secondary-color);
-  transform: translateY(-2px);
+.login-box form button:hover {
+  background-color: #ffcc00;
 }
 
-.login-button:disabled {
-  background-color: var(--dark-gray);
-  cursor: not-allowed;
-  transform: none;
-}
-
-/* Divisor visual */
-.divider {
-  margin: 24px 0;
-  position: relative;
-  text-align: center;
-}
-
-.divider::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background-color: var(--medium-gray);
-  z-index: 1;
-}
-
-.divider span {
-  position: relative;
-  display: inline-block;
-  padding: 0 12px;
-  background-color: white;
-  color: var(--dark-gray);
-  font-size: 0.8rem;
-  z-index: 2;
-}
-
-/* Login social */
+/* Área de login social */
 .social-login {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 24px;
+  margin-top: 2rem;
 }
 
-.social-button {
-  padding: 12px;
-  border: 1px solid var(--medium-gray);
-  border-radius: 8px;
-  background: white;
+.social-login p {
+  margin-bottom: 0.5rem;
+  color: #444;
+}
+
+/* Botões sociais */
+.social-buttons {
+  display: flex;
+  justify-content: space-around;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.social-buttons button {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  font-size: 0.9rem;
-  font-weight: 500;
+  gap: 0.5rem;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 10px;
   cursor: pointer;
-  transition: all 0.3s;
+  font-weight: bold;
+  font-size: 0.95rem;
+  transition: transform 0.2s;
 }
 
-.social-button:hover {
-  background-color: var(--light-gray);
+/* Ícones dos botões */
+.social-buttons button img {
+  width: 22px;
+  height: 22px;
 }
 
-.social-button.google {
-  color: #db4437;
+/* Botão do Google */
+.google-btn {
+  background-color: #ffffff;
+  border: 100px solid #ccc;
 }
 
-.social-button.github {
-  color: #24292e;
+/* Botão do GitHub */
+.github-btn {
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+}
+
+/* Efeito hover nos botões sociais */
+.social-buttons button:hover {
+  transform: scale(1.05);
 }
 
 /* Link de cadastro */
-.signup-link {
-  font-size: 0.9rem;
-  color: var(--text-color);
+.register-link {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  color: #333;
 }
 
-.signup-link a {
-  color: var(--primary-color);
+.register-link a {
+  color: #005eff;
+  font-weight: bold;
   text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s;
 }
 
-.signup-link a:hover {
-  color: var(--secondary-color);
+.register-link a:hover {
   text-decoration: underline;
 }
