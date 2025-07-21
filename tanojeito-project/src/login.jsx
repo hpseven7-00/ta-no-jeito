@@ -99,7 +99,7 @@ const styles = {
   button: {
     width: "100%",
     padding: "12px",
-    backgroundColor: "#ff8000",
+    backgroundColor: "#ff8000ff",
     color: "#fff",
     border: "none",
     borderRadius: "8px",
