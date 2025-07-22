@@ -1,0 +1,170 @@
+.promo-section {
+  margin: 2rem 0;
+  padding: 0 1rem;
+}
+
+.promo-title {
+  color: white;
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.promo-container {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.promo-carousel {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1rem 0;
+  overflow: hidden;
+}
+
+.promo-card {
+  background: white;
+  border-radius: 10px;
+  min-width: 280px;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.promo-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.promo-link {
+  text-decoration: none;
+  color: #333;
+  display: block;
+}
+
+.promo-discount {
+  background: #e63946;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: 0.8rem;
+}
+
+.promo-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 0.8rem;
+}
+
+.promo-details {
+  padding: 0 0.5rem;
+}
+
+.promo-name {
+  font-size: 1.1rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.promo-prices {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.promo-old-price {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.promo-current-price {
+  color: #e63946;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.promo-nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.promo-nav-button:hover {
+  background: white;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.promo-nav-button.prev {
+  left: -20px;
+}
+
+.promo-nav-button.next {
+  right: -20px;
+}
+
+@media (max-width: 768px) {
+  .promo-card {
+    min-width: 220px;
+  }
+  
+  .promo-image {
+    height: 120px;
+  }
+  
+  .promo-nav-button {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+  
+  .promo-nav-button.prev {
+    left: -15px;
+  }
+  
+  .promo-nav-button.next {
+    right: -15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .promo-title {
+    font-size: 1.5rem;
+  }
+  
+  .promo-card {
+    min-width: 180px;
+    padding: 0.8rem;
+  }
+  
+  .promo-image {
+    height: 100px;
+  }
+  
+  .promo-name {
+    font-size: 1rem;
+  }
+  
+  .promo-current-price {
+    font-size: 1rem;
+  }
+}
