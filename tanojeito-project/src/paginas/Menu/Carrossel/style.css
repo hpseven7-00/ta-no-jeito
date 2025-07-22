@@ -1,0 +1,118 @@
+:root {
+  --banner-width: 600px;
+  --banner-height: 185px;
+  --banner-margin: 10px;
+  --container-height: 260px;
+  --control-offset: 20px;
+}
+
+.banners-loop-container {
+  width: 100%;
+  overflow: hidden;
+  height: var(--container-height);
+  margin: 10px 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.banners-loop-wrapper {
+  width: calc(100% - 100px);
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.banners-loop-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  will-change: transform;
+}
+
+.banner-item {
+  width: var(--banner-width);
+  height: var(--banner-height);
+  margin: 0 var(--banner-margin);
+  flex-shrink: 0;
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+}
+
+.banner-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.carousel-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 70px;
+  height: 60px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.carousel-control:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-control.prev {
+  left: var(--control-offset);
+}
+
+.carousel-control.next {
+  right: var(--control-offset);
+}
+
+@media (max-width: 768px) {
+  :root {
+    --banner-width: 240px;
+    --banner-height: 150px;
+    --container-height: 180px;
+    --control-offset: 10px;
+  }
+  
+  .banners-loop-wrapper {
+    width: calc(100% - 80px);
+  }
+  
+  .carousel-control {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --banner-width: 180px;
+    --banner-height: 120px;
+    --container-height: 140px;
+    --control-offset: 5px;
+  }
+  
+  .banners-loop-wrapper {
+    width: calc(100% - 60px);
+  }
+  
+  .carousel-control {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+  }
+}
